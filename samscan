@@ -1,0 +1,55 @@
+#!/bin/bash
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+# Naive template check
+# template is invalid if yq returns error for whatever reason
+# template is valid if AWSTemplateFormatVersion exists
+# returns 1 if invalid, 0 if valid
+function isValidTemplate() {
+    local file=$1
+    local null="null"
+    local format=$(yq .AWSTemplateFormatVersion $file || echo $null)
+
+    if [ $format = "$null" ]; then
+        return 1  
+    fi
+
+    return 0
+}
+
+# Fetch the resources object as a list of entries
+function getTemplateResources() {
+    local file=$1
+    local null="null"
+    local resources=$(yq '.Resources | to_entries' $file || echo $null)
+
+    echo $resources
+}
+
+source $SCRIPT_DIR/venv/bin/activate
+
+if ! command -v yq &> /dev/null
+then
+    echo "Command yq could not be found"
+    exit 1
+fi
+
+COMMAND_NAME=$(basename "$0")
+PWD=$(pwd)
+FILEPATH=$PWD/$1
+
+if [ -z $1 ]
+then
+    echo "Usage: $COMMAND_NAME [FILEPATH]"
+    exit 1
+fi
+
+if ! isValidTemplate $FILEPATH
+then
+    echo "Not a valid SAM template file"
+    exit 1
+fi
+
+RESOURCES_JSON=$(getTemplateResources $FILEPATH)
+echo $RESOURCES_JSON | jq '.[].value.Type'

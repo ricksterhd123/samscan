@@ -5,8 +5,8 @@ scan your sam with sam scan
 ```bash
 chmod +x setup.sh
 ./setup.sh
-# Add path
-export PATH=$PATH:$HOME/.bin/samscan
+# Add this to ~/.bash_profile or ~/.bashrc
+echo "export PATH=\$PATH:\$HOME/.bin/samscan" >> ~/.bashrc
 ```
 
 ## Usage

@@ -5,8 +5,6 @@ null="null"
 
 source $SCRIPT_DIR/venv/bin/activate
 
-# echo $SCRIPT_DIR
-
 # Naive template check
 # template is invalid if yq returns error for whatever reason
 # template is valid if AWSTemplateFormatVersion exists

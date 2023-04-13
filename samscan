@@ -1,6 +1,11 @@
 #!/bin/bash
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+null="null"
+
+source $SCRIPT_DIR/venv/bin/activate
+
+# echo $SCRIPT_DIR
 
 # Naive template check
 # template is invalid if yq returns error for whatever reason
@@ -8,7 +13,6 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 # returns 1 if invalid, 0 if valid
 function isValidTemplate() {
     local file=$1
-    local null="null"
     local format=$(yq .AWSTemplateFormatVersion $file || echo $null)
 
     if [ $format = "$null" ]; then
@@ -21,13 +25,8 @@ function isValidTemplate() {
 # Fetch the resources object as a list of entries
 function getTemplateResources() {
     local file=$1
-    local null="null"
-    local resources=$(yq '.Resources | to_entries' $file || echo $null)
-
-    echo $resources
+    echo $(yq '.Resources | to_entries' $file || echo $null)
 }
-
-source $SCRIPT_DIR/venv/bin/activate
 
 if ! command -v yq &> /dev/null
 then
@@ -41,7 +40,7 @@ FILEPATH=$PWD/$1
 
 if [ -z $1 ]
 then
-    echo "Usage: $COMMAND_NAME [FILEPATH]"
+    echo "Usage: $COMMAND_NAME <FILEPATH>"
     exit 1
 fi
 

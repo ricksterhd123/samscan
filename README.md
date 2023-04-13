@@ -6,11 +6,13 @@ scan your sam with sam scan
 chmod +x setup.sh
 ./setup.sh
 # Add path
-export PATH=$PATH:$HOME/bin/samscan
+export PATH=$PATH:$HOME/.bin/samscan
 ```
 
 ## Usage
-`samscan [FILE]`
+```
+Usage: samscan <FILE>
+```
 
 Currently, this has only one use for me:
 - Echos to stdout a list of resource types used in a given template

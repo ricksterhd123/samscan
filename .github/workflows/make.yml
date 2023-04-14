@@ -15,5 +15,5 @@ jobs:
     - name: setup && test
       run: |
         make install
-        export PATH=$$PATH:$$HOME/.bin/samscan
+        export PATH=$PATH:$HOME/.bin/samscan
         make test

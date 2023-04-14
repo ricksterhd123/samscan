@@ -1,0 +1,19 @@
+name: make
+
+on:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: setup && test
+      run: |
+        make install
+        export PATH=$PATH:$HOME/.bin/samscan
+        make test

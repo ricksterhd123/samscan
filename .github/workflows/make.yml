@@ -12,8 +12,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: setup && install
+    - name: setup && test
       run: |
         make install
-        source ~/.bashrc
         make test

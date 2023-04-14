@@ -3,10 +3,10 @@ scan your sam with sam scan
 
 ## Setup
 ```bash
-chmod +x setup.sh
-./setup.sh
-# Add this to ~/.bash_profile or ~/.bashrc
-echo "export PATH=\$PATH:\$HOME/.bin/samscan" >> ~/.bashrc
+# run test jobs
+make test
+# setup && install in ~/.bin/samscan
+make install
 ```
 
 ## Usage

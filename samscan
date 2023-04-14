@@ -33,14 +33,14 @@ then
 fi
 
 COMMAND_NAME=$(basename "$0")
-PWD=$(pwd)
-FILEPATH=$PWD/$1
 
 if [ -z $1 ]
 then
     echo "Usage: $COMMAND_NAME <FILEPATH>"
     exit 1
 fi
+
+FILEPATH=$(readlink -f $1)
 
 if ! isValidTemplate $FILEPATH
 then
